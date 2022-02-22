@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.metrics
-import keras.utils
 from keras.utils import np_utils
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Reshape, Flatten, Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
 import tensorflow as tf
 
 #mnistの読み込み
