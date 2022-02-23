@@ -1,0 +1,44 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import sklearn.metrics
+import keras.datasets
+import keras.utils
+from keras.utils import np_utils
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Reshape, Flatten, Conv2D, MaxPooling2D
+import tensorflow as tf
+
+#cifar-10の読み込み
+(data_train, label_train), (data_test, label_test) = tf.keras.datasets.cifar10.load_data()
+
+#データ正規化
+data_train = data_train.astype( 'float32' ) / 255
+data_test = data_test.astype( 'float32' ) / 255
+label_train = label_train.astype( 'int32' )
+label_test = label_test.astype( 'int32' )
+
+#0,1のone-hot表現に変換
+one_hot_train = np_utils.to_categorical( label_train, 10 )
+one_hot_test = np_utils.to_categorical( label_test, 10 )
+
+# -- ここからCNNを構成 --
+
+model = Sequential() 
+model.add(Conv2D( 32, (3,3), use_bias=True, activation='relu', input_shape=(32,32,3) ))
+
+# -- ここまで --
+history = model.fit( data_train, one_hot_train, epochs=50, batch_size=1000, validation_data=(data_test, one_hot_test) )
+
+#混同行列
+label_pred = model.predict( data_test ).argmax( axis=1 )
+print( sklearn.metrics.confusion_matrix( label_test, label_pred ) )
+
+#グラフ
+plt.plot(history.history['accuracy'], label='training')
+plt.plot(history.history['val_accuracy'], label='validation')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.ylim(0.0, 1.05)
+plt.grid()
+plt.legend()
+plt.show()
