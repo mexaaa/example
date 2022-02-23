@@ -27,7 +27,7 @@ model = Sequential()
 model.add(Conv2D( 32, (3,3), use_bias=True, activation='relu', input_shape=(32,32,3) ))
 
 # -- ここまで --
-history = model.fit( data_train, one_hot_train, epochs=50, batch_size=1000, validation_data=(data_test, one_hot_test) )
+history = model.fit( data_train, one_hot_train, epochs=20, batch_size=1000, validation_data=(data_test, one_hot_test) )
 
 #混同行列
 label_pred = model.predict( data_test ).argmax( axis=1 )
